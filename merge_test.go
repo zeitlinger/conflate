@@ -105,6 +105,25 @@ func TestMerge_SliceOfMapsWithId(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, expected, toData)
 }
+func TestMerge_SliceOfPrimitive(t *testing.T) {
+	toData := []interface{}{
+		"a",
+		"b",
+	}
+	fromData := []interface{}{
+		"a",
+		"b",
+		"c",
+	}
+	expected := []interface{}{
+		"a",
+		"b",
+		"c",
+	}
+	err := merge(&toData, fromData)
+	assert.Nil(t, err)
+	assert.Equal(t, expected, toData)
+}
 
 func TestMerge_ToNil(t *testing.T) {
 	fromData := make(map[string]interface{})

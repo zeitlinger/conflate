@@ -121,6 +121,7 @@ func mergeSliceRecursive(ctx context, toVal reflect.Value, toData, fromData inte
 
 	var fromById = map[interface{}]interface{}{}
 	var toById = map[interface{}]interface{}{}
+	var primitiveAdded = map[interface{}]bool{}
 	addById(fromItems, fromById)
 	addById(toItems, toById)
 
@@ -141,6 +142,9 @@ func mergeSliceRecursive(ctx context, toVal reflect.Value, toData, fromData inte
 			}
 		}
 		if !merged {
+			if isPrimitive(item) {
+				primitiveAdded[item] = true
+			}
 			newItems = append(newItems, item)
 		}
 	}
@@ -155,6 +159,10 @@ func mergeSliceRecursive(ctx context, toVal reflect.Value, toData, fromData inte
 				skipped = true
 			}
 		}
+		if isPrimitive(item) && primitiveAdded[item] {
+			skipped = true
+		}
+
 		if !skipped {
 			newItems = append(newItems, item)
 		}
@@ -163,6 +171,12 @@ func mergeSliceRecursive(ctx context, toVal reflect.Value, toData, fromData inte
 	toVal.Set(reflect.ValueOf(newItems))
 
 	return nil
+}
+
+func isPrimitive(t interface{}) bool {
+	_, s := t.(string)
+	_, i := t.(int)
+	return s || i
 }
 
 func addById(items []interface{}, target map[interface{}]interface{}) {
@@ -177,7 +191,13 @@ func addById(items []interface{}, target map[interface{}]interface{}) {
 func getId(item interface{}) interface{} {
 	props, ok := item.(map[string]interface{})
 	if ok {
-		return props["id"]
+		ids := []string{"id", "refId", "name"}
+		for _, key := range ids {
+			v := props[key]
+			if v != nil {
+				return v
+			}
+		}
 	}
 	return nil
 }

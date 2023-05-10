@@ -119,8 +119,8 @@ func mergeSliceRecursive(ctx context, toVal reflect.Value, toData, fromData inte
 		}
 	}
 
-	var fromById = map[string]interface{}{}
-	var toById = map[string]interface{}{}
+	var fromById = map[interface{}]interface{}{}
+	var toById = map[interface{}]interface{}{}
 	addById(fromItems, fromById)
 	addById(toItems, toById)
 
@@ -128,7 +128,7 @@ func mergeSliceRecursive(ctx context, toVal reflect.Value, toData, fromData inte
 	for _, item := range toItems {
 		id := getId(item)
 		merged := false
-		if id != "" {
+		if id != nil {
 			from := fromById[id]
 			to := toById[id]
 			if from != nil && to != nil {
@@ -147,7 +147,7 @@ func mergeSliceRecursive(ctx context, toVal reflect.Value, toData, fromData inte
 	for _, item := range fromItems {
 		id := getId(item)
 		skipped := false
-		if id != "" {
+		if id != nil {
 			from := fromById[id]
 			to := toById[id]
 			if from != nil && to != nil {
@@ -165,22 +165,21 @@ func mergeSliceRecursive(ctx context, toVal reflect.Value, toData, fromData inte
 	return nil
 }
 
-func addById(items []interface{}, target map[string]interface{}) {
+func addById(items []interface{}, target map[interface{}]interface{}) {
 	for _, item := range items {
 		id := getId(item)
-		if id != "" {
+		if id != nil {
 			target[id] = item
 		}
 	}
 }
 
-func getId(item interface{}) string {
+func getId(item interface{}) interface{} {
 	props, ok := item.(map[string]interface{})
 	if ok {
-		id, _ := props["id"].(string)
-		return id
+		return props["id"]
 	}
-	return ""
+	return nil
 }
 
 func mergeDefaultRecursive(ctx context, toVal, fromVal reflect.Value, toData, fromData interface{}) error {

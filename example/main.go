@@ -6,7 +6,7 @@ import (
 	"path"
 	"runtime"
 
-	"github.com/miracl/conflate"
+	"github.com/zeitlinger/conflate"
 )
 
 // example of a custom unmarshaller for JSON.

@@ -28,7 +28,7 @@ Improvements, ideas and bug fixes are welcomed.
 Run the following command, which will build and install the latest binary in $GOPATH/bin
 
 ```
-go get github.com/miracl/conflate/...
+go get github.com/zeitlinger/conflate/...
 ```
 Alternatively, you can install one of the pre-built release binaries from https://github.com/miracl/conflate/releases
 
@@ -101,7 +101,7 @@ Also, note values in a file override values in any included files, and that an i
 If you instead host a file somewhere else, then just use a URL :
 
 ```bash
-$conflate -data https://raw.githubusercontent.com/miracl/conflate/master/testdata/valid_parent.json -format JSON
+$conflate -data https://raw.githubusercontent.com/zeitlinger/conflate/master/testdata/valid_parent.json -format JSON
 {
   "all": "parent",
   "child_only": "child",

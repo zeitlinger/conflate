@@ -1,4 +1,4 @@
-module github.com/miracl/conflate
+module github.com/zeitlinger/conflate
 
 go 1.19
 

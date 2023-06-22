@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/miracl/conflate"
+	"github.com/zeitlinger/conflate"
 )
 
 var version = "devel"
